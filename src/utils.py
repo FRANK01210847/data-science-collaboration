@@ -39,6 +39,13 @@ def setup_plotting_style():
     plt.rcParams['ytick.labelsize'] = 10
     plt.rcParams['legend.fontsize'] = 10
 
+def calculate_statistics(data):
+    """Calculate basic statistics for dataset."""
+    return {
+        'mean': data.mean(),
+        'std': data.std(),
+        'count': len(data)
+    }
 
 def check_data_quality(df: pd.DataFrame, output_path: Optional[str] = None) -> Dict[str, Any]:
     """
