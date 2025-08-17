@@ -1,6 +1,6 @@
 """
 Model training module for the data science collaboration project.
-
+Model training utilities.
 This module contains functions for training, evaluating, and saving
 machine learning models.
 """
@@ -21,7 +21,7 @@ from typing import Tuple, Dict, Any, Optional
 import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
-
+from sklearn.ensemble import GradientBoostingClassifier
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -36,6 +36,18 @@ class ModelTrainer:
         self.models = {}
         self.best_model = None
         self.model_scores = {}
+        
+    def train_model(self, X_train: pd.DataFrame, y_train: pd.Series) -> Any:
+        """Train a machine learning model."""
+        # Use Gradient Boosting for better performance
+        model = GradientBoostingClassifier(
+            n_estimators=200,
+            learning_rate=0.1,
+            max_depth=5,
+            random_state=42
+        )
+        model.fit(X_train, y_train)
+        return model
         
     def prepare_data(self, data_path: str, target_column: str, test_size: float = 0.2) -> Tuple:
         """
