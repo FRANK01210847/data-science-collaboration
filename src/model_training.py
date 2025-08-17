@@ -21,7 +21,8 @@ from typing import Tuple, Dict, Any, Optional
 import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -91,7 +92,18 @@ class ModelTrainer:
         """Check if the problem is classification or regression."""
         return y.dtype == 'object' or y.nunique() <= 10
     
-    def train_multiple_models(self, X_train: pd.DataFrame, y_train: pd.Series, 
+    def train_model(X_train, y_train):
+        """Train a machine learning model."""
+        # Use Random Forest with specific parameters
+        model = RandomForestClassifier(
+            n_estimators=100,
+            max_depth=10,
+            random_state=42
+        )
+        model.fit(X_train, y_train)
+        return model
+
+    def train_multiple_models(self, X_train: pd.DataFrame, y_train: pd.Series,
                             problem_type: str = 'auto') -> Dict:
         """
         Train multiple models and compare their performance.
